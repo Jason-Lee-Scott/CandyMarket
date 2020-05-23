@@ -14,4 +14,12 @@ namespace CandyMarket.Models
         public DateTime ExpirationDate { get; set; }
         public DateTime DateReceived { get; set; }
     }
+
+    public class CandyWithEarliestDate
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public DateTime EarliestDate { get; set; }
+    }
+
 }
