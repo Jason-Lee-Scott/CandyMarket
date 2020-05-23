@@ -21,5 +21,7 @@ namespace CandyMarket.Controllers
             var updatedOwnerCandy = _repository.EatsCandy(userId, candyId);
             return Ok(updatedOwnerCandy);
         }
+
+        
     }
 }
