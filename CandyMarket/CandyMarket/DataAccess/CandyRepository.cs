@@ -13,7 +13,7 @@ namespace CandyMarket.DataAccess
     {
         const string ConnectionString = "Server=localhost;Database=CandyMarket;Trusted_Connection=True;";
 
-        public IEnumerable<CandyWithDateReceived> GetCandyByDates()
+        public IEnumerable<CandyWithEarliestDate> GetCandyByDates()
         {
             var sql = @"SELECT OwnersCandy.ID, Candy.Name, MIN(CASE WHEN (Candy.ExpirationDate < OwnersCandy.DateReceived)
 		                        THEN Candy.ExpirationDate ELSE OwnersCandy.DateReceived END) AS EarliestDate
@@ -27,7 +27,7 @@ namespace CandyMarket.DataAccess
 
             using (var db = new SqlConnection(ConnectionString))
             {
-                var result = db.Query<CandyWithDateReceived>(sql);
+                var result = db.Query<CandyWithEarliestDate>(sql);
                 
                 return result;
             }

@@ -9,7 +9,17 @@ namespace CandyMarket.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public DateTime EarliestDate { get; set; }
-        
+        public string Flavor { get; set; }
+        public string Manufacturer { get; set; }
+        public DateTime ExpirationDate { get; set; }
+        public DateTime DateReceived { get; set; }
     }
+
+    public class CandyWithEarliestDate
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public DateTime EarliestDate { get; set; }
+    }
+
 }

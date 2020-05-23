@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CandyMarket.Models;
 using Microsoft.Data.SqlClient;
 using Dapper;
+using Microsoft.AspNetCore.Razor.Language.Intermediate;
 
 namespace CandyMarket.DataAccess
 {
@@ -39,6 +40,29 @@ namespace CandyMarket.DataAccess
             }
         }
 
+        public CandyWithDateReceived RandomCandyWithExpRecDate(string flavorToSearch)
+        {
+            var sql = @"select c.*, o.DateReceived
+                        from Candy c
+                    	JOIN OwnersCandy o 
+	                    ON o.CandyId = c.Id
+                        where flavor = @flavor
+                        order by ExpirationDate,DateReceived                                       
+		                        ";
+
+            var parameters = new
+            {
+                flavor = flavorToSearch
+            };
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var candy = db.QueryFirstOrDefault<CandyWithDateReceived>(sql, parameters);
+                return candy;
+            }
+
+        }
+
         public List<EatenOwnersCandy> EatenCandy(int userId)
         {
             var sql = @"select 
@@ -64,3 +88,4 @@ namespace CandyMarket.DataAccess
         }
     }
 }
+
