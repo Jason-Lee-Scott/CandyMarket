@@ -38,5 +38,29 @@ namespace CandyMarket.DataAccess
                 return result;
             }
         }
+
+        public List<EatenOwnersCandy> EatenCandy(int userId)
+        {
+            var sql = @"select 
+		                    oc.ID as OwnersCandyId, DateReceived, us.Name as UserName, can.Name as CandyName, IsEaten, EatenDate
+	                    from OwnersCandy as oc
+	                    join [User] as us on us.ID = oc.UserId
+	                    join Candy as can on oc.CandyId = can.ID
+	                    where 
+		                    UserId = @UserId
+		                    and IsEaten = 1
+	                    order by DateReceived";
+
+            var parameters = new
+            {
+                UserId = userId
+            };
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var result = db.Query<EatenOwnersCandy>(sql, parameters).ToList();
+                return result;
+            }
+        }
     }
 }
