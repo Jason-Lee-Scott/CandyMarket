@@ -22,7 +22,7 @@ namespace CandyMarket.Controllers
             return Ok(updatedOwnerCandy);
         }
 
-        [HttpPost("viewcandy/eaten/user/{userId}")]
+        [HttpGet("viewcandy/eaten/user/{userId}")]
         public IActionResult EatenCandy(int userId)
         {
             var candies = _repository.EatenCandy(userId);

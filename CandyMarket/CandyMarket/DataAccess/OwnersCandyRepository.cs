@@ -39,10 +39,10 @@ namespace CandyMarket.DataAccess
             }
         }
 
-        public List<OwnersCandy> EatenCandy(int userId)
+        public List<EatenOwnersCandy> EatenCandy(int userId)
         {
             var sql = @"select 
-		                    oc.ID as OwnersCandyId, DateReceived, us.Name, us.Email, can.Name, IsEaten, EatenDate
+		                    oc.ID as OwnersCandyId, DateReceived, us.Name as UserName, can.Name as CandyName, IsEaten, EatenDate
 	                    from OwnersCandy as oc
 	                    join [User] as us on us.ID = oc.UserId
 	                    join Candy as can on oc.CandyId = can.ID
@@ -58,7 +58,7 @@ namespace CandyMarket.DataAccess
 
             using (var db = new SqlConnection(ConnectionString))
             {
-                var result = db.Query<OwnersCandy>(sql, parameters).ToList();
+                var result = db.Query<EatenOwnersCandy>(sql, parameters).ToList();
                 return result;
             }
         }
