@@ -21,5 +21,12 @@ namespace CandyMarket.Controllers
             var updatedOwnerCandy = _repository.EatsCandy(userId, candyId);
             return Ok(updatedOwnerCandy);
         }
+
+        [HttpGet("viewcandy/eaten/user/{userId}")]
+        public IActionResult EatenCandy(int userId)
+        {
+            var candies = _repository.EatenCandy(userId);
+            return Ok(candies);
+        }
     }
 }

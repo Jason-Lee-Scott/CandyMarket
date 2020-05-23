@@ -14,4 +14,14 @@ namespace CandyMarket.Models
         public bool IsEaten { get; set; }
         public DateTime EatenDate { get; set; }
     }
+
+    public class EatenOwnersCandy
+    {
+        public int OwnersCandyId { get; set; }
+        public DateTime DateReceived { get; set; }
+        public string UserName { get; set; }
+        public string CandyName { get; set; }
+        public bool IsEaten { get; set; }
+        public DateTime EatenDate { get; set; }
+    }
 }
