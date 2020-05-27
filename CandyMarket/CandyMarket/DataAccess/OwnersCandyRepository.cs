@@ -11,6 +11,7 @@ namespace CandyMarket.DataAccess
 {
     public class OwnersCandyRepository
     {
+
         const string ConnectionString = "Server=localhost;Database=CandyMarket;Trusted_Connection=True;";
 
         public OwnersCandy EatsCandy(int userId, int candyId)
