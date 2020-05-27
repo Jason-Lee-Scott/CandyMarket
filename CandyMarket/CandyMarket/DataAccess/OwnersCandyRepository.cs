@@ -87,7 +87,7 @@ namespace CandyMarket.DataAccess
             }
         }
 
-        public OwnersCandy TradesCandy(int userId1, int userId2)
+        public OwnersCandy TradesCandy(int userId1, int user1Candy, int userId2, int user2Candy)
         {
             // User1 and User2 trade their oldest candies
             var sql = @"
@@ -107,6 +107,8 @@ namespace CandyMarket.DataAccess
             {
                 UserId2 = userId2,
                 UserId1 = userId1,
+                user2CandyId = user2Candy,
+                user1CandyId = user1Candy
             };
 
             using (var db = new SqlConnection(ConnectionString))

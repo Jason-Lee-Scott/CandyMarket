@@ -33,7 +33,7 @@ namespace CandyMarket.DataAccess
             }
         }
 
-        public Candy GetOldestCandyForUser(int userId)
+        public  Candy GetOldestCandyForUser(int userId)
         {
             var sql = @"
                 select top(1)
@@ -51,7 +51,7 @@ namespace CandyMarket.DataAccess
 
             using (var db = new SqlConnection(ConnectionString))
             {
-                var result = db.Query<Candy>(sql, parameters);
+                var result = db.QueryFirstOrDefault<Candy>(sql, parameters);
 
                 return result;
             }

@@ -42,7 +42,7 @@ namespace CandyMarket.Controllers
         {
             Candy user1Candy = _candyRepository.GetOldestCandyForUser(userId1);
             Candy user2Candy = _candyRepository.GetOldestCandyForUser(userId2);
-            var candies = _ownersCandyRepository.TradesCandy(userId1, userId2);
+            var candies = _ownersCandyRepository.TradesCandy(userId1, user1Candy.ID, userId2, user2Candy.ID);
             return Ok(candies);
         }
     }
