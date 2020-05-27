@@ -86,6 +86,37 @@ namespace CandyMarket.DataAccess
                 return result;
             }
         }
+
+        public OwnersCandy TradesCandy(int userId1, int user1Candy, int userId2, int user2Candy)
+        {
+            // User1 and User2 trade their oldest candies
+            var sql = @"
+                update OwnersCandy
+	                set DateReceived = getdate(),
+                        UserId = @UserId2
+	                output inserted.*
+                where Id = @user1CandyId
+
+                update OwnersCandy
+	                set DateReceived = getdate(),
+                        UserId = @UserId1
+	                output inserted.*
+                where Id = @user2CandyId";
+
+            var parameters = new
+            {
+                UserId2 = userId2,
+                UserId1 = userId1,
+                user2CandyId = user2Candy,
+                user1CandyId = user1Candy
+            };
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var result = db.QueryFirstOrDefault<OwnersCandy>(sql, parameters);
+                return result;
+            }
+        }
     }
 }
 
