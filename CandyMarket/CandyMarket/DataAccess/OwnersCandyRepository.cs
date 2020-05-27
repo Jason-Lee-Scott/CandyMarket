@@ -90,40 +90,23 @@ namespace CandyMarket.DataAccess
         public OwnersCandy TradesCandy(int userId1, int userId2)
         {
             // User1 and User2 trade their oldest candies
-            var sql = @"with TradeCandy1 as (
-                            select top(1)
-	                            OwnersCandy.*,
-	                            [User].Name as OwnerName, [User].Id as UserId,
-	                            Candy.Name as CandyName
-                            from OwnersCandy
-	                            join [User] on [User].Id = OwnersCandy.UserId
-	                            join Candy on OwnersCandy.CandyId = Candy.ID
-                            order by DateReceived asc
-                            )
-                            update TradeCandy1
-	                            set DateReceived = getdate() 
-	                            set UserId = @UserId2
-	                            output inserted.*
+            var sql = @"
+                update OwnersCandy
+	                set DateReceived = getdate(),
+                        UserId = @UserId2
+	                output inserted.*
+                where Id = @user1CandyId
 
-                        with TradeCandy2 as (
-                            select top(1)
-	                            OwnersCandy.*,
-	                            [User].Name as OwnerName, [User].Id as UserId,
-	                            Candy.Name as CandyName
-                            from OwnersCandy
-	                            join [User] on [User].Id = OwnersCandy.UserId
-	                            join Candy on OwnersCandy.CandyId = Candy.ID
-                            order by DateReceived asc
-                            )
-                            update TradeCandy2
-	                            set DateReceived = getdate()
-	                            set UserId = @UserId1
-	                            output inserted.*";
+                update OwnersCandy
+	                set DateReceived = getdate(),
+                        UserId = @UserId1
+	                output inserted.*
+                where Id = @user2CandyId";
 
             var parameters = new
             {
                 UserId2 = userId2,
-                UserId1 = userId1
+                UserId1 = userId1,
             };
 
             using (var db = new SqlConnection(ConnectionString))
