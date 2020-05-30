@@ -6,12 +6,18 @@ using CandyMarket.Models;
 using System.Data.SqlClient;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace CandyMarket.DataAccess
 {
     public class CandyRepository
     {
-        const string ConnectionString = "Server=localhost;Database=CandyMarket;Trusted_Connection=True;";
+        string ConnectionString;
+
+        public CandyRepository(IConfiguration config)
+        {
+            ConnectionString = config.GetConnectionString("CandyMarket");
+        }
 
         public IEnumerable<CandyWithEarliestDate> GetCandyByDates()
         {

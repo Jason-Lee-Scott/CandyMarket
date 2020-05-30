@@ -13,7 +13,12 @@ namespace CandyMarket.Controllers
     [ApiController]
     public class OwnersCandyController : ControllerBase
     {
-        OwnersCandyRepository _repository = new OwnersCandyRepository();
+        OwnersCandyRepository _repository;
+
+        public OwnersCandyController(OwnersCandyRepository repository)
+        {
+            _repository = repository;
+        }
 
         [HttpPost("eatcandy/{candyId}/user/{userId}")]
         public IActionResult EatsCandy(int userId, int candyId)

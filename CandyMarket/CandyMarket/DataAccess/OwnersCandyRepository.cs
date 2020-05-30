@@ -6,12 +6,18 @@ using CandyMarket.Models;
 using Microsoft.Data.SqlClient;
 using Dapper;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
+using Microsoft.Extensions.Configuration;
 
 namespace CandyMarket.DataAccess
 {
     public class OwnersCandyRepository
     {
-        const string ConnectionString = "Server=localhost;Database=CandyMarket;Trusted_Connection=True;";
+        string ConnectionString;
+
+        public OwnersCandyRepository(IConfiguration config)
+        {
+            ConnectionString = config.GetConnectionString("CandyMarket");
+        }
 
         public OwnersCandy EatsCandy(int userId, int candyId)
         {
