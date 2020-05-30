@@ -28,7 +28,7 @@ namespace CandyMarket
         {
             services.AddControllers();
 
-            //services.AddTransient<CandyRepository>();
+            services.AddTransient<CandyRepository>();
             services.AddTransient<OwnersCandyRepository>();
             services.AddSingleton<IConfiguration>(Configuration);
            
