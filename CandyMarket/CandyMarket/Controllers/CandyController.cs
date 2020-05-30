@@ -13,14 +13,19 @@ namespace CandyMarket.Controllers
     [ApiController]
     public class CandyController : ControllerBase
     {
-        CandyRepository _repository = new CandyRepository();
+        CandyRepository _repository;
+
+        public CandyController(CandyRepository repository)
+        {
+            _repository = repository;
+        }
 
         //GET: api/candy/candyByDate
         [HttpGet("candyByDate")]
         public IActionResult GetCandyByDate()
         {
-            var repo = new CandyRepository();
-            var candies = repo.GetCandyByDates();
+            
+            var candies = _repository.GetCandyByDates();
 
             if (!candies.Any())
             {

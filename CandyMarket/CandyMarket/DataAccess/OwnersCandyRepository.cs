@@ -6,13 +6,20 @@ using CandyMarket.Models;
 using Microsoft.Data.SqlClient;
 using Dapper;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
+using Microsoft.Extensions.Configuration;
 
 namespace CandyMarket.DataAccess
 {
     public class OwnersCandyRepository
     {
 
-        const string ConnectionString = "Server=localhost;Database=CandyMarket;Trusted_Connection=True;";
+        string ConnectionString;
+
+        public OwnersCandyRepository(IConfiguration config)
+        {
+            ConnectionString = config.GetConnectionString("CandyMarket");
+        }
+
 
         public OwnersCandy EatsCandy(int userId, int candyId)
         {
@@ -84,6 +91,30 @@ namespace CandyMarket.DataAccess
             using (var db = new SqlConnection(ConnectionString))
             {
                 var result = db.Query<EatenOwnersCandy>(sql, parameters).ToList();
+                return result;
+            }
+        }
+
+        public Candy GetOldestCandyForUser(int userId)
+        {
+            var sql = @"
+                select top(1)
+	                OwnersCandy.Id
+                from OwnersCandy
+	                join [User] on [User].Id = OwnersCandy.UserId
+	                join Candy on OwnersCandy.CandyId = Candy.ID
+				where OwnersCandy.UserId = @UserId
+                order by DateReceived asc";
+
+            var parameters = new
+            {
+                UserId = userId
+            };
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var result = db.QueryFirstOrDefault<Candy>(sql, parameters);
+
                 return result;
             }
         }

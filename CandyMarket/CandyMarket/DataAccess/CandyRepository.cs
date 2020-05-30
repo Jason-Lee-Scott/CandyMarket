@@ -13,7 +13,13 @@ namespace CandyMarket.DataAccess
     public class CandyRepository
     {
 
-        const string ConnectionString = "Server=localhost;Database=CandyMarket;Trusted_Connection=True;";
+        string ConnectionString;
+
+        public CandyRepository(IConfiguration config)
+        {
+            ConnectionString = config.GetConnectionString("CandyMarket");
+        }
+
 
         public IEnumerable<CandyWithEarliestDate> GetCandyByDates()
         {
@@ -35,28 +41,28 @@ namespace CandyMarket.DataAccess
             }
         }
 
-        public  Candy GetOldestCandyForUser(int userId)
-        {
-            var sql = @"
-                select top(1)
-	                OwnersCandy.Id
-                from OwnersCandy
-	                join [User] on [User].Id = OwnersCandy.UserId
-	                join Candy on OwnersCandy.CandyId = Candy.ID
-				where OwnersCandy.UserId = @UserId
-                order by DateReceived asc";
+    //    public  Candy GetOldestCandyForUser(int userId)
+    //    {
+    //        var sql = @"
+    //            select top(1)
+	   //             OwnersCandy.Id
+    //            from OwnersCandy
+	   //             join [User] on [User].Id = OwnersCandy.UserId
+	   //             join Candy on OwnersCandy.CandyId = Candy.ID
+				//where OwnersCandy.UserId = @UserId
+    //            order by DateReceived asc";
 
-            var parameters = new
-            {
-                UserId = userId
-            };
+    //        var parameters = new
+    //        {
+    //            UserId = userId
+    //        };
 
-            using (var db = new SqlConnection(ConnectionString))
-            {
-                var result = db.QueryFirstOrDefault<Candy>(sql, parameters);
+    //        using (var db = new SqlConnection(ConnectionString))
+    //        {
+    //            var result = db.QueryFirstOrDefault<Candy>(sql, parameters);
 
-                return result;
-            }
-        }
+    //            return result;
+    //        }
+    //    }
     }
 }
