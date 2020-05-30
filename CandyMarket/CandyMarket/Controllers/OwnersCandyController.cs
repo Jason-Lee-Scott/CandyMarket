@@ -13,12 +13,16 @@ namespace CandyMarket.Controllers
     [ApiController]
     public class OwnersCandyController : ControllerBase
     {
+
         OwnersCandyRepository _repository;
 
         public OwnersCandyController(OwnersCandyRepository repository)
         {
             _repository = repository;
         }
+
+        CandyRepository  _candyRepository;
+        
 
         [HttpPost("eatcandy/{candyId}/user/{userId}")]
         public IActionResult EatsCandy(int userId, int candyId)
@@ -41,5 +45,13 @@ namespace CandyMarket.Controllers
             return Ok(candies);
         }
 
+        [HttpPut("tradecandy/user/{userId1}/user/{userId2}")]
+        public IActionResult TradesCandy(int userId1, int userId2)
+        {
+            Candy user1Candy = _repository.GetOldestCandyForUser(userId1);
+            Candy user2Candy = _repository.GetOldestCandyForUser(userId2);
+            var candies = _repository.TradesCandy(userId1, user1Candy.ID, userId2, user2Candy.ID);
+            return Ok(candies);
+        }
     }
 }
